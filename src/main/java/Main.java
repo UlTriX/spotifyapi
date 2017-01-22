@@ -6,10 +6,9 @@ import java.util.List;
  */
 public class Main {
 
-    public List<String> artists = Arrays.asList("Led Zeppelin","Pink Floyd");
+    public static List<String> artists = Arrays.asList("Led Zeppelin","Pink Floyd");
 
     public static void main(String args[]) {
-
 
 
     }
