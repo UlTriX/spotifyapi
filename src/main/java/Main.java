@@ -32,7 +32,6 @@ public class Main {
      * Albuns de um Artista -> https://developer.spotify.com/web-api/get-artists-albums/
      * <p>
      * <p>
-     * <p>
      * Lib Unirest:
      * http://unirest.io/java.html
      */
