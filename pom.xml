@@ -8,12 +8,25 @@
     <artifactId>spotify-api</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <build>
+        <finalName>Spotify API</finalName>
+        <resources>
+            <resource>
+                <directory>src/main/config</directory>
+            </resource>
+        </resources>
+    </build>
 
     <dependencies>
         <dependency>
             <groupId>com.mashape.unirest</groupId>
             <artifactId>unirest-java</artifactId>
             <version>1.4.9</version>
+        </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>9.4-1204-jdbc41</version>
         </dependency>
     </dependencies>
 
