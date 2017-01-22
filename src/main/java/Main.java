@@ -41,6 +41,7 @@ public class Main {
      * Procurar um Artista -> https://developer.spotify.com/web-api/search-item/
      * Top Tracks de um Artista -> https://developer.spotify.com/web-api/get-artists-top-tracks/
      * Albuns de um Artista -> https://developer.spotify.com/web-api/get-artists-albums/
+     * Testes no Browser -> https://developer.spotify.com/web-api/console/
      * <p>
      * <p>
      * Unirest:
