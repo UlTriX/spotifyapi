@@ -13,26 +13,37 @@ import java.util.Properties;
 public class Main {
 
     /**
-     * Ex1:
+     * EX 1:
      * <p>
      * Comunicar com a API do Spotify e por cada Artista da lista apresentar no ecran
      * as suas Top Tracks em Portugal, apresentar:
      * nome do album, nome da musica e posição no album
      * <p>
      * <p>
-     * Ex2:
+     * EX 2:
      * <p>
      * Comunicar com a API do Spotify e por cada Artista da lista saber quantos albuns existem no
      * Spotify escrever na base de dados o nome do Artista e o numero total de albuns que existe e no final
      * ler da base de dados e apresentar essa informação no ecran
+     */
+
+    /**
+     * NOTAS
+     * <p>
+     * Cada exercicio deve ser implementado em branch de git próprio e no final
+     * de cada exercicio deve ser feito merge com o branch master
+     */
+
+    /**
+     * REFERÊNCIAS
      * <p>
      * Spotify API:
-     * Procurar um artista -> https://developer.spotify.com/web-api/search-item/
+     * Procurar um Artista -> https://developer.spotify.com/web-api/search-item/
      * Top Tracks de um Artista -> https://developer.spotify.com/web-api/get-artists-top-tracks/
      * Albuns de um Artista -> https://developer.spotify.com/web-api/get-artists-albums/
      * <p>
      * <p>
-     * Lib Unirest:
+     * Unirest:
      * http://unirest.io/java.html
      */
 
