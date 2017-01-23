@@ -7,9 +7,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
@@ -60,7 +58,12 @@ public class Main {
             "Garbage", "Porcupine Tree",
             "Nirvana", "Pearl Jam");
 
-    public static void main(String args[]) throws UnirestException {
+    public static void main(String args[]) throws UnirestException, SQLException, IOException, ClassNotFoundException {
+
+
+        Connection conn = getConnection();
+
+
 
         for(int i=0;i<artists.size();i++) {
 
@@ -74,27 +77,39 @@ public class Main {
                     ((JSONArray)
                             ((JSONObject) jsonResponse.getBody().getObject().get("artists")).get("items")).get(0)).getString("id");
 
-
-            //System.out.println(valorID);
-
-
-            jsonResponse = Unirest.get("https://api.spotify.com/v1/artists/"+valorID+"/top-tracks")
+            jsonResponse = Unirest.get("https://api.spotify.com/v1/artists/"+valorID+"/albums")
                     .header("accept", "application/json")
-                    .queryString("country","PT")
+                    .queryString("q", artists.get(i))
+                    .queryString("album_type", "album")
                     .asJson();
 
+            System.out.print("nome artista: "+artists.get(i)+"\t");
+            int n_albuns = (Integer) jsonResponse.getBody().getObject().get("total");
 
-            System.out.println( ( (JSONObject) (  (JSONArray) jsonResponse.getBody().getObject().get("tracks")).get(0) ).get("track_number") );
-            System.out.println( ( (JSONObject) (  (JSONArray) jsonResponse.getBody().getObject().get("tracks")).get(0) ).get("name") );
-            System.out.println( ((JSONObject)( (JSONObject) (  (JSONArray) jsonResponse.getBody().getObject().get("tracks")).get(0) ).get("album")).getString("name") );
-            //String toptrack = jsonResponse;
+
+            Statement statement = conn.createStatement();
+
+            ResultSet dados = statement.executeQuery("SELECT * FROM artistas");
+
+            while (dados.next()) {
+                String nomebd = dados.getString("nome");
+                int numbd = dados.getInt("albuns");
+
+                System.out.println(nomebd + "\t" + numbd);
+            }
+
+            statement.close();
+
+            //statement.executeUpdate("INSERT INTO artistas (nome, albuns)" + "VALUES ('"+artists.get(i)+"', '"+n_albuns+"') ");
+
+            System.out.println(" ");
+
+
+
 
         }
 
-
-        //System.out.print(jsonResponse.getBody());
-
-
+        conn.close();
 
     }
 
@@ -111,7 +126,6 @@ HttpResponse<JsonNode> jsonResponse = Unirest.post("http://httpbin.org/post")
  */
 
 
-
     private static Connection getConnection() throws ClassNotFoundException, SQLException, IOException {
         /**
          * Existe uma Tabela chamada "artistas" com o seguinte formato
@@ -125,5 +139,5 @@ HttpResponse<JsonNode> jsonResponse = Unirest.post("http://httpbin.org/post")
         props.load(input);
         Class.forName("org.postgresql.Driver");
         return DriverManager.getConnection("jdbc:postgresql://horton.elephantsql.com/hzscixli", props);
-    }
+}
 }
