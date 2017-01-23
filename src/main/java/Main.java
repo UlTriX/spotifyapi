@@ -1,3 +1,10 @@
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.JsonNode;
+import com.mashape.unirest.http.Unirest;
+import com.mashape.unirest.http.exceptions.UnirestException;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
@@ -53,9 +60,56 @@ public class Main {
             "Garbage", "Porcupine Tree",
             "Nirvana", "Pearl Jam");
 
-    public static void main(String args[]) {
+    public static void main(String args[]) throws UnirestException {
+
+        for(int i=0;i<artists.size();i++) {
+
+            HttpResponse<JsonNode> jsonResponse = Unirest.get("https://api.spotify.com/v1/search")
+                    .header("accept", "application/json")
+                    .queryString("q", artists.get(i))
+                    .queryString("type","artist")
+                    .asJson();
+
+            String valorID = ((JSONObject)
+                    ((JSONArray)
+                            ((JSONObject) jsonResponse.getBody().getObject().get("artists")).get("items")).get(0)).getString("id");
+
+
+            //System.out.println(valorID);
+
+
+            jsonResponse = Unirest.get("https://api.spotify.com/v1/artists/"+valorID+"/top-tracks")
+                    .header("accept", "application/json")
+                    .queryString("country","PT")
+                    .asJson();
+
+
+            System.out.println( ( (JSONObject) (  (JSONArray) jsonResponse.getBody().getObject().get("tracks")).get(0) ).get("track_number") );
+            System.out.println( ( (JSONObject) (  (JSONArray) jsonResponse.getBody().getObject().get("tracks")).get(0) ).get("name") );
+            System.out.println( ((JSONObject)( (JSONObject) (  (JSONArray) jsonResponse.getBody().getObject().get("tracks")).get(0) ).get("album")).getString("name") );
+            //String toptrack = jsonResponse;
+
+        }
+
+
+        //System.out.print(jsonResponse.getBody());
+
+
 
     }
+
+
+
+/*
+HttpResponse<JsonNode> jsonResponse = Unirest.post("http://httpbin.org/post")
+  .header("accept", "application/json")
+  .queryString("apiKey", "123")
+  .field("parameter", "value")
+  .field("foo", "bar")
+  .asJson();
+
+ */
+
 
 
     private static Connection getConnection() throws ClassNotFoundException, SQLException, IOException {
